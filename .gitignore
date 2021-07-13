@@ -2,3 +2,5 @@
 *.vscode
 v/tm
 tm2rmb
+config
+data
