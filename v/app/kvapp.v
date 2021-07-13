@@ -34,7 +34,7 @@ pub fn(mut a KVApp) set_option(req bus.RequestSetOption) ?bus.ResponseSetOption 
 
 pub fn(mut a KVApp) commit(req bus.RequestCommit) ?bus.ResponseCommit {
 	return bus.ResponseCommit{
-		// data: ""
+		data: ""
 	}
 }
 
@@ -51,10 +51,10 @@ pub fn(mut a KVApp) is_valid(tx string) int {
 	key := parts.first()
 
 	a.bus.redis.get(key) or {
-		return 2
+		return 0
 	}
 
-	return 0
+	return 2
 }
 
 pub fn(mut a KVApp) check_tx(req bus.RequestCheckTx) ?bus.ResponseCheckTx {
