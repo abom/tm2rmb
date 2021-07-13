@@ -128,14 +128,6 @@ pub fn (mut h QueryHandler) handle(payload string) ?string {
 	return json.encode(resp as ResponseQuery)
 }
 
-pub fn setup_handlers(mut app App)  {
-	app.bus.handle("${app.name}.info", &InfoHandler{app: app})
-	app.bus.handle("${app.name}.initchain", &InitChainHandler{app: app})
-	app.bus.handle("${app.name}.beginblock", &BeginBlockHandler{app: app})
-	app.bus.handle("${app.name}.endblock", &EndBlockHandler{app: app})
-	app.bus.handle("${app.name}.setoption", &SetOptionHandler{app: app})
-	app.bus.handle("${app.name}.commit", &CommitHandler{app: app})
-	app.bus.handle("${app.name}.checktx", &CheckTxHandler{app: app})
-	app.bus.handle("${app.name}.delivertx", &DeliverTxHandler{app: app})
-	app.bus.handle("${app.name}.query", &QueryHandler{app: app})
-}
+// pub fn setup_handlers(mut app App)  {
+
+// }

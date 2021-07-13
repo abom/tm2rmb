@@ -12,7 +12,17 @@ fn main() {
 		bus: bus
 	}
 
-	busmod.setup_handlers(mut app)
+	// setup handlers, using bus.handle does not work for some reason (bus.handlers would be empty)
+	bus.handlers["msgbus.${app.name}.info"] = &busmod.InfoHandler{app: app}
+	bus.handlers["msgbus.${app.name}.initchain"] = &busmod.InitChainHandler{app: app}
+	bus.handlers["msgbus.${app.name}.beginblock"] = &busmod.BeginBlockHandler{app: app}
+	bus.handlers["msgbus.${app.name}.endblock"] = &busmod.EndBlockHandler{app: app}
+	bus.handlers["msgbus.${app.name}.setoption"] = &busmod.SetOptionHandler{app: app}
+	bus.handlers["msgbus.${app.name}.commit"] = &busmod.CommitHandler{app: app}
+	bus.handlers["msgbus.${app.name}.checktx"] = &busmod.CheckTxHandler{app: app}
+	bus.handlers["msgbus.${app.name}.delivertx"] = &busmod.DeliverTxHandler{app: app}
+	bus.handlers["msgbus.${app.name}.query"] = &busmod.QueryHandler{app: app}
+
 	bus.run() or { panic(err) }
 }
 

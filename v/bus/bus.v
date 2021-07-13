@@ -26,11 +26,10 @@ mut:
 pub struct BusServer {
 	addr	string
 
-mut:
-	handlers map[string]mut Handler
-
 pub mut:
 	redis   redisclient.Redis
+	handlers map[string]Handler
+
 }
 
 pub fn new_bus(addr string) &BusServer {
@@ -38,18 +37,19 @@ pub fn new_bus(addr string) &BusServer {
 
 	return &BusServer{
 		addr: addr,
-		redis: redis
+		redis: redis,
+		handlers: map[string]Handler{},
 	}
 }
 
 pub fn (mut b BusServer) handle(topic string, mut handler Handler) {
+	// this doesn't work for some reason
 	b.handlers["msgbus.$topic"] = handler
 }
 
 pub fn (mut b BusServer) run()? {
 	mut keys := []string{}
 
-	println(b.handlers)
 	for key, _ in b.handlers {
 		println("watching $key")
 		keys << key
@@ -63,6 +63,7 @@ pub fn (mut b BusServer) run()? {
 	if channel in b.handlers {
 		mut handler := b.handlers[channel]
 		payload := base64.decode_str(message.data)
+		println("handling: $channel, payload: $payload")
 		resp := handler.handle(payload) or {
 			b.reply(mut message, err.msg)
 			return
