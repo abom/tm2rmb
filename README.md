@@ -22,14 +22,16 @@ TMHOME=/path/to/config tendermint init
 
 Then you can run node with our app and give it a twin id for RMB and an app name:
 
+Twin with this ID should have an IP of `localhost`, this twin should be create on tfgrid (substrate).
+
 ```
-./tm2rmb -config /path/to/config/config.toml -twin 12 -app myapp
+./tm2rmb -config /path/to/config/config.toml -twin 20 -app myapp
 ```
 
 Running [message bus](https://github.com/threefoldtech/rmb/tree/master/msgbusd) with the same twin ID:
 
 ```
-msgbusd 12
+msgbusd --twin 20
 ```
 
 ### Running examples
