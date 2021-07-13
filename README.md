@@ -26,8 +26,51 @@ Then you can run node with our app and give it a twin id for RMB and an app name
 ./tm2rmb -config /path/to/config/config.toml -twin 12 -app myapp
 ```
 
+Running [message bus](https://github.com/threefoldtech/rmb/tree/master/msgbusd) with the same twin ID:
+
+```
+msgbusd 12
+```
+
 ### Running examples
+
+After running Tendermint and node, it's the time to run our app, you can run an example key-value store app that uses redis in Javascript or V.
 
 #### Javascript
 
+Tested on node version `v14.17.0`:
+
+```
+cd js
+npm install
+node tm_app.js
+```
+
 #### V
+
+```
+cd v
+v tm.v
+./tm
+```
+
+
+#### Testing example app
+
+Do a query first:
+
+```
+curl -s 'localhost:26657/abci_query?data="key1"
+```
+
+Write a value to the same key
+
+```
+curl -s 'curl -s 'localhost:26657/broadcast_tx_commit?tx="key1=somevalue"'
+```
+
+Query again:
+
+```
+curl -s 'localhost:26657/abci_query?data="key1"
+```
