@@ -27,7 +27,7 @@ pub struct BusServer {
 	addr	string
 
 mut:
-	handlers map[string]mut Handler
+	handlers map[string]Handler
 
 pub mut:
 	redis   redisclient.Redis
@@ -42,14 +42,22 @@ pub fn new_bus(addr string) &BusServer {
 	}
 }
 
+fn (mut b BusServer) debug(from string) {
+	println("$from: handlers size: ${b.handlers.len}")
+	println("$from: handlers: ${b.handlers}")
+}
+
 pub fn (mut b BusServer) handle(topic string, mut handler Handler) {
 	b.handlers["msgbus.$topic"] = handler
+
+	b.debug("handle")
 }
 
 pub fn (mut b BusServer) run()? {
 	mut keys := []string{}
 
-	println(b.handlers)
+	b.debug("run")
+
 	for key, _ in b.handlers {
 		println("watching $key")
 		keys << key
